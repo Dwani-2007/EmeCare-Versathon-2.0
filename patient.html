@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EmeCare | Patient Portal</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+        /* ================= SIDEBAR ================= */
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 245px;
+            height: 100vh;
+            background: #0b1736;
+            color: white;
+            padding: 25px 16px;
+            z-index: 1000;
+        }
+        
+        .brand {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 42px;
+            padding-left: 12px;
+            letter-spacing: -1px;
+        }
+        
+        .brand span {
+            color: #4d9cff;
+        }
+        
+        .nav-title {
+            font-size: 11px;
+            color: #8290ad;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            margin: 20px 12px 10px;
+        }
+        
+        .nav-item {
+            padding: 13px 14px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            color: #b8c3d8;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        
+        .nav-item:hover {
+            background: #162653;
+            color: white;
+        }
+        
+        .nav-item.active {
+            background: #1d3d78;
+            color: white;
+            box-shadow: inset 3px 0 0 #4d9cff;
+        }
+        
+        .nav-icon {
+            display: inline-block;
+            width: 28px;
+            font-size: 15px;
+        }
+        /* ================= MAIN ================= */
+        
+        .main {
+            margin-left: 245px;
+            min-height: 100vh;
+        }
+        /* ================= TOP BAR ================= */
+        
+        .topbar {
+            height: 82px;
+            background: white;
+            border-bottom: 1px solid #e4e9f1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+        }
+        
+        .page-title h1 {
+            font-size: 23px;
+            color: #172033;
+        }
+        
+        .page-title p {
+            color: #7a8499;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+        /* Patient badge */
+        
+        .patient-badge {
+            background: #edf5ff;
+            color: #2467b1;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        /* ================= CONTENT ================= */
+        
+        .content {
+            padding: 32px 35px 50px;
+        }
+        /* ================= WELCOME ================= */
+        
+        .welcome {
+            background: linear-gradient(120deg, #102957, #1e4f91);
+            color: white;
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .welcome::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border: 35px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            right: -70px;
+            top: -80px;
+        }
+        
+        .welcome h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .welcome p {
+            color: #d9e5f8;
+            font-size: 14px;
+            max-width: 650px;
+            line-height: 1.6;
+        }
+        /* ================= HOSPITAL SELECTOR ================= */
+        
+        .hospital-selector-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid #e3e8f0;
+            margin-bottom: 28px;
+        }
+        
+        .hospital-selector-card h3 {
+            font-size: 17px;
+            margin-bottom: 7px;
+        }
+        
+        .hospital-selector-card p {
+            color: #7b8598;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+        
+        .select-wrapper {
+            position: relative;
+        }
+        
+        .hospital-select {
+            width: 100%;
+            padding: 15px 18px;
+            border: 1px solid #d6deea;
+            border-radius: 10px;
+            background: #f9fbfe;
+            font-size: 14px;
+            color: #172033;
+            outline: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        
+        .hospital-select:focus {
+            border-color: #438de0;
+            box-shadow: 0 0 0 3px rgba(67, 141, 224, 0.1);
+        }
+        /* ================= HOSPITAL DETAILS ================= */
+        
+        #hospitalInfo {
+            display: none;
+        }
+        /* Hospital header */
+        
+        .hospital-header {
+            background: white;
+            border: 1px solid #e3e8f0;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .hospital-header h2 {
+            font-size: 22px;
+            margin-bottom: 7px;
+        }
+        
+        .hospital-location {
+            color: #7b8598;
+            font-size: 13px;
+        }
+        
+        .status-online {
+            background: #e8f8ef;
+            color: #18834b;
+            padding: 8px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        /* ================= SECTION ================= */
+        
+        .section {
+            background: white;
+            border: 1px solid #e3e8f0;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+        
+        .section-header h3 {
+            font-size: 18px;
+        }
+        
+        .section-header p {
+            color: #7b8598;
+            font-size: 12px;
+        }
+        /* ================= BED CARDS ================= */
+        
+        .bed-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        
+        .bed-card {
+            border: 1px solid #e3e8f0;
+            border-radius: 13px;
+            padding: 20px;
+            background: #fafcff;
+            transition: 0.2s;
+        }
+        
+        .bed-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(26, 50, 90, 0.08);
+        }
+        
+        .bed-card h4 {
+            font-size: 14px;
+            color: #667189;
+            margin-bottom: 12px;
+        }
+        
+        .bed-number {
+            font-size: 31px;
+            font-weight: 700;
+            color: #172033;
+        }
+        
+        .bed-label {
+            font-size: 12px;
+            color: #7b8598;
+            margin-top: 4px;
+        }
+        
+        .availability-bar {
+            height: 6px;
+            background: #e6ebf3;
+            border-radius: 10px;
+            margin-top: 16px;
+            overflow: hidden;
+        }
+        
+        .availability-fill {
+            height: 100%;
+            background: #3f8edb;
+            border-radius: 10px;
+        }
+        /* ================= DOCTORS ================= */
+        
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+        
+        .doctor-card {
+            border: 1px solid #e3e8f0;
+            border-radius: 14px;
+            padding: 21px;
+            background: #fff;
+        }
+        
+        .doctor-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        
+        .doctor-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #eaf3ff;
+            color: #2868ae;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .doctor-card h4 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        
+        .specialization {
+            color: #758198;
+            font-size: 12px;
+        }
+        
+        .doctor-info {
+            border-top: 1px solid #edf0f5;
+            padding-top: 14px;
+        }
+        
+        .availability {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+        
+        .available {
+            color: #16834b;
+            font-weight: 600;
+        }
+        
+        .unavailable {
+            color: #c45252;
+            font-weight: 600;
+        }
+        
+        .dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+            margin-right: 5px;
+        }
+        /* ================= INFORMATION CARDS ================= */
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+        
+        .info-card {
+            padding: 20px;
+            border: 1px solid #e3e8f0;
+            border-radius: 13px;
+        }
+        
+        .info-card h4 {
+            font-size: 13px;
+            color: #6f7b91;
+            margin-bottom: 8px;
+        }
+        
+        .info-card p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        /* ================= EMPTY STATE ================= */
+        
+        .empty-state {
+            background: white;
+            border: 1px dashed #ccd5e3;
+            border-radius: 16px;
+            padding: 60px 25px;
+            text-align: center;
+            color: #778298;
+        }
+        
+        .empty-state h3 {
+            color: #354158;
+            margin-bottom: 8px;
+        }
+        
+        .empty-state p {
+            font-size: 13px;
+        }
+        /* ================= RESPONSIVE ================= */
+        
+        @media (max-width: 1100px) {
+            .bed-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .doctor-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 750px) {
+            .sidebar {
+                width: 210px;
+            }
+            .main {
+                margin-left: 210px;
+            }
+            .topbar {
+                padding: 0 20px;
+            }
+            .content {
+                padding: 25px 20px;
+            }
+            .patient-badge {
+                display: none;
+            }
+            .hospital-header {
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .bed-grid,
+            .doctor-grid,
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 550px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+            .main {
+                margin-left: 0;
+            }
+            .topbar {
+                position: relative;
+            }
+            .welcome h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <div class="sidebar">
+
+        <div class="brand">
+            Eme<span>Care</span>
+        </div>
+
+        <div class="nav-title">Patient Portal</div>
+
+        <div class="nav-item active">
+            <span class="nav-icon">▦</span> Hospital Search
+        </div>
+
+        <div class="nav-item" onclick="scrollToSection('bedsSection')">
+            <span class="nav-icon">▣</span> Bed Availability
+        </div>
+
+        <div class="nav-item" onclick="scrollToSection('doctorsSection')">
+            <span class="nav-icon">◈</span> Doctors
+        </div>
+
+        <div class="nav-title">Information</div>
+
+        <div class="nav-item" onclick="scrollToSection('hospitalDetailsSection')">
+            <span class="nav-icon">⌂</span> Hospital Details
+        </div>
+
+    </div>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <div class="main">
+
+        <!-- TOP BAR -->
+
+        <div class="topbar">
+
+            <div class="page-title">
+                <h1>Patient Portal</h1>
+                <p>Find hospitals, available beds and doctors</p>
+            </div>
+
+            <div class="patient-badge">
+                Patient Access
+            </div>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+            <!-- WELCOME -->
+
+            <div class="welcome">
+
+                <h2>Find the right care, faster.</h2>
+
+                <p>
+                    Select a hospital to check current bed availability, view doctors and their specializations, and see which doctors are currently available.
+                </p>
+
+            </div>
+
+
+            <!-- HOSPITAL SELECTOR -->
+
+            <div class="hospital-selector-card">
+
+                <h3>Select Hospital</h3>
+
+                <p>
+                    Choose a hospital below to view its current resources and medical staff.
+                </p>
+
+                <div class="select-wrapper">
+
+                    <select class="hospital-select" id="hospitalSelect" onchange="showHospital()">
+
+                    <option value="">
+                        -- Select Hospital --
+                    </option>
+
+                    <option value="kmc">
+                        KMC Hospital
+                    </option>
+
+                    <option value="aj">
+                        AJ Hospital
+                    </option>
+
+                    <option value="yenepoya">
+                        Yenepoya Hospital
+                    </option>
+
+                    <option value="father-muller">
+                        Father Muller Medical College Hospital
+                    </option>
+
+                    <option value="unity">
+                        Unity Hospital
+                    </option>
+
+                </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- EMPTY STATE -->
+
+            <div id="emptyState" class="empty-state">
+
+                <h3>Select a hospital to continue</h3>
+
+                <p>
+                    Hospital bed availability and doctor information will appear here.
+                </p>
+
+            </div>
+
+
+            <!-- ================= HOSPITAL INFORMATION ================= -->
+
+            <div id="hospitalInfo">
+
+
+                <!-- HOSPITAL HEADER -->
+
+                <div class="hospital-header">
+
+                    <div>
+
+                        <h2 id="hospitalName">
+                            KMC Hospital
+                        </h2>
+
+                        <div class="hospital-location" id="hospitalLocation">
+                            Mangaluru, Karnataka
+                        </div>
+
+                    </div>
+
+                    <div class="status-online">
+                        Information Available
+                    </div>
+
+                </div>
+
+
+                <!-- ================= BEDS ================= -->
+
+                <div class="section" id="bedsSection">
+
+                    <div class="section-header">
+
+                        <div>
+                            <h3>Bed Availability</h3>
+
+                            <p>
+                                Current available beds at this hospital
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="bed-grid">
+
+
+                        <div class="bed-card">
+
+                            <h4>General Ward</h4>
+
+                            <div class="bed-number" id="generalBeds">
+                                0
+                            </div>
+
+                            <div class="bed-label">
+                                beds available
+                            </div>
+
+                            <div class="availability-bar">
+                                <div class="availability-fill" id="generalBar"></div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="bed-card">
+
+                            <h4>ICU</h4>
+
+                            <div class="bed-number" id="icuBeds">
+                                0
+                            </div>
+
+                            <div class="bed-label">
+                                beds available
+                            </div>
+
+                            <div class="availability-bar">
+                                <div class="availability-fill" id="icuBar"></div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="bed-card">
+
+                            <h4>Casualty</h4>
+
+                            <div class="bed-number" id="casualtyBeds">
+                                0
+                            </div>
+
+                            <div class="bed-label">
+                                beds available
+                            </div>
+
+                            <div class="availability-bar">
+                                <div class="availability-fill" id="casualtyBar"></div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="bed-card">
+
+                            <h4>Pediatrics</h4>
+
+                            <div class="bed-number" id="pediatricBeds">
+                                0
+                            </div>
+
+                            <div class="bed-label">
+                                beds available
+                            </div>
+
+                            <div class="availability-bar">
+                                <div class="availability-fill" id="pediatricBar"></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= DOCTORS ================= -->
+
+                <div class="section" id="doctorsSection">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h3>Doctors Available</h3>
+
+                            <p>
+                                Doctors currently associated with this hospital
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="doctor-grid" id="doctorGrid"></div>
+
+                </div>
+
+
+                <!-- ================= HOSPITAL DETAILS ================= -->
+
+                <div class="section" id="hospitalDetailsSection">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h3>Hospital Information</h3>
+
+                            <p>
+                                Basic information about the selected hospital
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-grid">
+
+                        <div class="info-card">
+
+                            <h4>Location</h4>
+
+                            <p id="infoLocation">
+                                -
+                            </p>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <h4>Emergency Services</h4>
+
+                            <p id="infoEmergency">
+                                -
+                            </p>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <h4>Contact</h4>
+
+                            <p id="infoContact">
+                                -
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        /* =====================================================
+           HOSPITAL DATA
+           Demo data for prototype
+        ===================================================== */
+
+        const hospitals = {
+
+            kmc: {
+
+                name: "KMC Hospital",
+
+                location: "Attavar, Mangaluru, Karnataka",
+
+                contact: "+91 824 222 5533",
+
+                emergency: "24/7 Emergency Services",
+
+                beds: {
+
+                    general: 28,
+                    icu: 6,
+                    casualty: 9,
+                    pediatric: 5
+
+                },
+
+                totalBeds: {
+
+                    general: 50,
+                    icu: 15,
+                    casualty: 15,
+                    pediatric: 10
+
+                },
+
+                doctors: [
+
+                    {
+                        name: "Dr. Anil Rao",
+                        specialization: "Cardiologist",
+                        available: true
+                    },
+
+                    {
+                        name: "Dr. Priya Shetty",
+                        specialization: "ENT Specialist",
+                        available: true
+                    },
+
+                    {
+                        name: "Dr. Rahul Kumar",
+                        specialization: "General Physician",
+                        available: false
+                    },
+
+                    {
+                        name: "Dr. Meera Nair",
+                        specialization: "Pediatrician",
+                        available: true
+                    },
+
+                    {
+                        name: "Dr. Arjun Bhat",
+                        specialization: "Orthopedic Specialist",
+                        available: false
+                    }
+
+                ]
+
+            },
+
+
+            aj: {
+
+                name: "AJ Hospital",
+
+                location: "Kuntikana, Mangaluru, Karnataka",
+
+                contact: "+91 824 222 5533",
+
+                emergency: "24/7 Emergency Services",
+
+                beds: {
+
+                    general: 35,
+                    icu: 8,
+                    casualty: 11,
+                    pediatric: 7
+
+                },
+
+                totalBeds: {
+
+                    general: 60,
+                    icu: 20,
+                    casualty: 18,
+                    pediatric: 12
+
+                },
+
+                doctors: [
+
+                    {
+                        name: "Dr. Suresh Pai",
+                        specialization: "Cardiologist",
+                        available: true
+                    },
+
+                    {
+                        name: "Dr. Kavya Rao",
+                        specialization: "Neurologist",
+                        available: false
+                    },
+
+                    {
+                        name: "Dr. Naveen Kumar",
+                        specialization: "General Physician",
+                        available: true
+                    },
+
+                    {
+                        name: "Dr. Asha Shetty",
+                        specialization: "Pediatrician",
+                        available: true
+                    }
+
+                ]
+
+            },
+
+
+            yenepoya: {
+
+                name: "Yenepoya Hospital",
+
+                location: "Deralakatte, Mangaluru, Karnataka",
+
+                contact: "+91 824 220 4666",
+
+                emergency: "24/7 Emergency Services",
+
+                beds: {
+
+                    general: 42,
+                    icu: 10,
+                    casualty: 14,
+                    pediatric: 9
+
+                },
+
+                totalBeds: {
+
+                    general: 70,
+                    icu: 25,
+                    casualty: 20,
+                    pediatric: 15
+
+                },
+
+                doctors: [
+
+                    {
+                        name: "Dr. Mohammed Faiz",
+                        specialization: "Cardiologist",
+                        available: true
+                    },
+
+                    {
+                        name: "Dr. Sneha Rao",
+                        specialization: "ENT Specialist",
+                        available: true
+                    },
+
+                    {
+                        name: "Dr. Rohan Shetty",
+                        specialization: "General Surgeon",
+                        available: false
+                    },
+
+                    {
+                        name: "Dr. Nisha Kumar",
+                        specialization: "Dermatologist",
+                        available: true
+                    }
+
+                ]
+
+            },
+
+
+            "father-muller": {
+
+                name: "Father Muller Medical College Hospital",
+
+                location: "Kankanady, Mangaluru, Karnataka",
+
+                contact: "+91 824 223 8000",
+
+                emergency: "24/7 Emergency Services",
+
+                beds: {
+
+                    general: 31,
+                    icu: 7,
+                    casualty: 8,
+                    pediatric: 6
+
+                },
+
+                totalBeds: {
+
+                    general: 55,
+                    icu: 18,
+                    casualty: 15,
+                    pediatric: 10
+
+                },
+
+                doctors: [
+
+                    {
+                        name: "Dr. Joseph D'Souza",
+                        specialization: "Cardiologist",
+                        available: true
+                    },
+
+                    {
+                        name: "Dr. Maria Fernandes",
+                        specialization: "ENT Specialist",
+                        available: false
+                    },
+
+                    {
+                        name: "Dr. Vivek Rao",
+                        specialization: "General Physician",
+                        available: true
+                    }
+
+                ]
+
+            },
+
+
+            unity: {
+
+                name: "Unity Hospital",
+
+                location: "Mangaluru, Karnataka",
+
+                contact: "+91 824 242 1111",
+
+                emergency: "24/7 Emergency Services",
+
+                beds: {
+
+                    general: 22,
+                    icu: 4,
+                    casualty: 6,
+                    pediatric: 4
+
+                },
+
+                totalBeds: {
+
+                    general: 40,
+                    icu: 12,
+                    casualty: 10,
+                    pediatric: 8
+
+                },
+
+                doctors: [
+
+                    {
+                        name: "Dr. Harish Bhat",
+                        specialization: "General Physician",
+                        available: true
+                    },
+
+                    {
+                        name: "Dr. Divya Shetty",
+                        specialization: "Pediatrician",
+                        available: true
+                    },
+
+                    {
+                        name: "Dr. Ajay Rao",
+                        specialization: "Orthopedic Specialist",
+                        available: false
+                    }
+
+                ]
+
+            }
+
+        };
+
+
+        /* =====================================================
+           SHOW SELECTED HOSPITAL
+        ===================================================== */
+
+        function showHospital() {
+
+            const selectedHospital =
+                document.getElementById("hospitalSelect").value;
+
+            const emptyState =
+                document.getElementById("emptyState");
+
+            const hospitalInfo =
+                document.getElementById("hospitalInfo");
+
+
+            if (selectedHospital === "") {
+
+                emptyState.style.display = "block";
+                hospitalInfo.style.display = "none";
+
+                return;
+
+            }
+
+
+            const hospital =
+                hospitals[selectedHospital];
+
+
+            emptyState.style.display = "none";
+            hospitalInfo.style.display = "block";
+
+
+            /* Hospital name */
+
+            document.getElementById("hospitalName").textContent =
+                hospital.name;
+
+
+            document.getElementById("hospitalLocation").textContent =
+                hospital.location;
+
+
+            /* ================= BED DATA ================= */
+
+            document.getElementById("generalBeds").textContent =
+                hospital.beds.general;
+
+
+            document.getElementById("icuBeds").textContent =
+                hospital.beds.icu;
+
+
+            document.getElementById("casualtyBeds").textContent =
+                hospital.beds.casualty;
+
+
+            document.getElementById("pediatricBeds").textContent =
+                hospital.beds.pediatric;
+
+
+            /* ================= BED BARS ================= */
+
+            const generalPercentage =
+                (hospital.beds.general /
+                    hospital.totalBeds.general) * 100;
+
+            const icuPercentage =
+                (hospital.beds.icu /
+                    hospital.totalBeds.icu) * 100;
+
+            const casualtyPercentage =
+                (hospital.beds.casualty /
+                    hospital.totalBeds.casualty) * 100;
+
+            const pediatricPercentage =
+                (hospital.beds.pediatric /
+                    hospital.totalBeds.pediatric) * 100;
+
+
+            document.getElementById("generalBar").style.width =
+                generalPercentage + "%";
+
+
+            document.getElementById("icuBar").style.width =
+                icuPercentage + "%";
+
+
+            document.getElementById("casualtyBar").style.width =
+                casualtyPercentage + "%";
+
+
+            document.getElementById("pediatricBar").style.width =
+                pediatricPercentage + "%";
+
+
+            /* ================= HOSPITAL INFO ================= */
+
+            document.getElementById("infoLocation").textContent =
+                hospital.location;
+
+
+            document.getElementById("infoEmergency").textContent =
+                hospital.emergency;
+
+
+            document.getElementById("infoContact").textContent =
+                hospital.contact;
+
+
+            /* ================= DOCTORS ================= */
+
+            renderDoctors(hospital.doctors);
+
+        }
+
+
+        /* =====================================================
+           RENDER DOCTORS
+        ===================================================== */
+
+        function renderDoctors(doctors) {
+
+            const doctorGrid =
+                document.getElementById("doctorGrid");
+
+            doctorGrid.innerHTML = "";
+
+
+            doctors.forEach(doctor => {
+
+                const initials =
+                    doctor.name
+                    .replace("Dr. ", "")
+                    .split(" ")
+                    .map(word => word.charAt(0))
+                    .slice(0, 2)
+                    .join("");
+
+
+                const availabilityClass =
+                    doctor.available ?
+                    "available" :
+                    "unavailable";
+
+
+                const availabilityText =
+                    doctor.available ?
+                    "Available now" :
+                    "Currently unavailable";
+
+
+                const card = document.createElement("div");
+
+                card.className = "doctor-card";
+
+
+                card.innerHTML = `
+
+            <div class="doctor-top">
+
+                <div class="doctor-avatar">
+                    ${initials}
+                </div>
+
+                <div>
+
+                    <h4>${doctor.name}</h4>
+
+                    <div class="specialization">
+                        ${doctor.specialization}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="doctor-info">
+
+                <div class="availability">
+
+                    <span>Current status</span>
+
+                    <span class="${availabilityClass}">
+
+                        <span class="dot"></span>
+
+                        ${availabilityText}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+                doctorGrid.appendChild(card);
+
+            });
+
+        }
+
+
+        /* =====================================================
+           SIDEBAR SCROLL
+        ===================================================== */
+
+        function scrollToSection(sectionId) {
+
+            const section =
+                document.getElementById(sectionId);
+
+            if (section) {
+
+                section.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+
+        }
+    </script>
+
+</body>
+
+</html>
