@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EmeCare</title>
+
+
+    <style>
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #eef9fb, #f7fbff);
+            color: #1e293b;
+            min-height: 100vh;
+        }
+        /* =====================================================
+           HEADER
+        ===================================================== */
+        
+        .header {
+            height: 90px;
+            background: rgba(255, 255, 255, 0.97);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        /* =====================================================
+           EMECARE LOGO
+        ===================================================== */
+        
+        .emecare-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-symbol {
+            width: 58px;
+            height: 58px;
+            flex-shrink: 0;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+        
+        .logo-name {
+            font-size: 29px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            background: linear-gradient( 90deg, #159c9b, #0759a5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo-tagline {
+            margin-top: 6px;
+            font-size: 7px;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            color: #64748b;
+        }
+        
+        .header-text {
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        /* =====================================================
+           HERO SECTION
+        ===================================================== */
+        
+        .hero {
+            text-align: center;
+            padding: 70px 20px 45px;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: #dff6fa;
+            color: #0e7490;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            color: #0f172a;
+        }
+        
+        .hero h2 span {
+            color: #0e7490;
+        }
+        
+        .hero p {
+            max-width: 650px;
+            margin: auto;
+            color: #64748b;
+            font-size: 17px;
+            line-height: 1.7;
+        }
+        /* =====================================================
+           INTERFACE CARDS
+        ===================================================== */
+        
+        .interface-container {
+            max-width: 900px;
+            margin: 15px auto 70px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .interface-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 38px 35px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.07);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Card top line */
+        
+        .interface-card::before {
+            content: "";
+            position: absolute;
+            height: 5px;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background: linear-gradient( 90deg, #0e7490, #14b8a6);
+        }
+        
+        .interface-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+        }
+        /* =====================================================
+           CARD ICONS
+        ===================================================== */
+        
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            font-size: 35px;
+            background: #e6f7fa;
+            margin-bottom: 25px;
+        }
+        
+        .patient-icon {
+            background: #eef2ff;
+        }
+        /* =====================================================
+           CARD TEXT
+        ===================================================== */
+        
+        .interface-card h3 {
+            font-size: 25px;
+            margin-bottom: 12px;
+            color: #0f172a;
+        }
+        
+        .interface-card p {
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 15px;
+            min-height: 72px;
+        }
+        /* =====================================================
+           FEATURES
+        ===================================================== */
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 20px 0 25px;
+        }
+        
+        .feature {
+            background: #f1f5f9;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #475569;
+        }
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+        
+        .open-button {
+            width: 100%;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            background: #0e7490;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        
+        .open-button:hover {
+            background: #155e75;
+            transform: scale(1.02);
+        }
+        
+        .patient-button {
+            background: #4f46e5;
+        }
+        
+        .patient-button:hover {
+            background: #4338ca;
+        }
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+        
+        .footer {
+            background: white;
+            text-align: center;
+            padding: 20px;
+            color: #94a3b8;
+            font-size: 13px;
+            border-top: 1px solid #e2e8f0;
+        }
+        /* =====================================================
+           RESPONSIVE DESIGN
+        ===================================================== */
+        
+        @media (max-width: 700px) {
+            .header {
+                padding: 0 20px;
+            }
+            .header-text {
+                display: none;
+            }
+            .logo-symbol {
+                width: 50px;
+                height: 50px;
+            }
+            .logo-name {
+                font-size: 25px;
+            }
+            .logo-tagline {
+                font-size: 6px;
+            }
+            .hero {
+                padding-top: 50px;
+            }
+            .hero h2 {
+                font-size: 32px;
+            }
+            .hero p {
+                font-size: 15px;
+            }
+            .interface-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="header">
+
+
+        <!-- EMECARE LOGO -->
+
+        <div class="emecare-logo">
+
+
+            <!-- SVG LOGO -->
+
+            <svg class="logo-symbol" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+
+
+                <!-- Gradient -->
+
+                <defs>
+
+                    <linearGradient
+                        id="logoGradient"
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="100%"
+                    >
+
+                        <stop
+                            offset="0%"
+                            stop-color="#18a89f"
+                        />
+
+                        <stop
+                            offset="100%"
+                            stop-color="#0759a5"
+                        />
+
+                    </linearGradient>
+
+                </defs>
+
+
+
+                <!-- HEART -->
+
+                <path
+                    d="
+                    M50 88
+                    C42 81 17 63 12 42
+                    C7 22 20 9 36 10
+                    C45 10 52 15 58 23
+                    C64 14 72 9 82 10
+                    C96 12 101 27 96 42
+                    C90 60 69 78 50 88Z
+                    "
+
+                    fill="none"
+
+                    stroke="url(#logoGradient)"
+
+                    stroke-width="7"
+
+                    stroke-linecap="round"
+
+                    stroke-linejoin="round"
+                />
+
+
+
+                <!-- SWEEPING LINE -->
+
+                <path
+                    d="
+                    M20 78
+                    C30 61 42 45 56 31
+                    C68 19 79 15 91 19
+                    "
+
+                    fill="none"
+
+                    stroke="url(#logoGradient)"
+
+                    stroke-width="7"
+
+                    stroke-linecap="round"
+                />
+
+
+
+                <!-- MEDICAL CROSS -->
+
+                <path
+                    d="
+                    M48 36
+                    H55
+                    V43
+                    H62
+                    V50
+                    H55
+                    V57
+                    H48
+                    V50
+                    H41
+                    V43
+                    H48
+                    Z
+                    "
+
+                    fill="url(#logoGradient)"
+                />
+
+
+
+                <!-- OPEN HAND -->
+
+                <path
+                    d="
+                    M32 65
+                    C37 60 41 58 44 59
+                    L51 63
+                    C54 65 58 64 61 62
+                    L69 56
+                    C72 54 75 55 76 58
+                    C77 60 76 62 74 64
+                    L62 73
+                    C57 77 49 78 43 75
+                    L33 70
+                    C30 69 30 67 32 65Z
+                    "
+
+                    fill="url(#logoGradient)"
+                />
+
+            </svg>
+
+
+
+            <!-- LOGO TEXT -->
+
+            <div class="logo-text">
+
+                <div class="logo-name">
+
+                    EmeCare
+
+                </div>
+
+
+                <div class="logo-tagline">
+
+                    EMERGENCY | MEDICAL | CARE
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- HEADER DESCRIPTION -->
+
+        <div class="header-text">
+
+            Smart Emergency Healthcare Access
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- =====================================================
+         HERO SECTION
+    ====================================================== -->
+
+    <section class="hero">
+
+
+        <div class="hero-badge">
+
+            🚑 EMERGENCY HEALTHCARE PLATFORM
+
+        </div>
+
+
+
+        <h2>
+
+            Welcome to <span>EmeCare</span>
+
+        </h2>
+
+
+
+        <p>
+
+            A smart platform connecting hospitals and patients with real-time information about beds, medical resources and healthcare availability.
+
+        </p>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         INTERFACE SECTION
+    ====================================================== -->
+
+    <section class="interface-container">
+
+
+        <!-- =================================================
+             HOSPITAL COORDINATOR
+        ================================================== -->
+
+        <div class="interface-card">
+
+
+            <div class="card-icon">
+
+                🏥
+
+            </div>
+
+
+
+            <h3>
+
+                Hospital Coordinator
+
+            </h3>
+
+
+
+            <p>
+
+                Manage hospital resources and monitor real-time availability of beds, blood, equipment and emergency supplies.
+
+            </p>
+
+
+
+            <div class="features">
+
+
+                <span class="feature">
+
+                    🛏️ Beds
+
+                </span>
+
+
+                <span class="feature">
+
+                    🩸 Blood
+
+                </span>
+
+
+                <span class="feature">
+
+                    🚑 Equipment
+
+                </span>
+
+
+                <span class="feature">
+
+                    📊 Analytics
+
+                </span>
+
+
+            </div>
+
+
+
+            <button class="open-button" onclick="openCoordinator()">
+
+                Open Coordinator Dashboard →
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             PATIENT
+        ================================================== -->
+
+        <div class="interface-card">
+
+
+            <div class="card-icon patient-icon">
+
+                👤
+
+            </div>
+
+
+
+            <h3>
+
+                Patient
+
+            </h3>
+
+
+
+            <p>
+
+                Find hospitals, check available beds, view doctors and their availability before visiting the hospital.
+
+            </p>
+
+
+
+            <div class="features">
+
+
+                <span class="feature">
+
+                    🏥 Hospitals
+
+                </span>
+
+
+                <span class="feature">
+
+                    🛏️ Beds
+
+                </span>
+
+
+                <span class="feature">
+
+                    👨‍⚕️ Doctors
+
+                </span>
+
+
+                <span class="feature">
+
+                    📅 Booking
+
+                </span>
+
+
+            </div>
+
+
+
+            <button class="open-button patient-button" onclick="openPatient()">
+
+                Open Patient Dashboard →
+
+            </button>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer">
+
+
+        EmeCare © 2026
+
+        <br> Connecting people with emergency healthcare resources
+
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+        function openCoordinator() {
+
+            alert(
+                "Coordinator Dashboard will be added in Part 2."
+            );
+
+        }
+
+
+
+        function openPatient() {
+
+            alert(
+                "Patient Dashboard will be added in a later part."
+            );
+
+        }
+    </script>
+
+
+</body>
+
+</html>
