@@ -1,0 +1,2504 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EmeCare | Coordinator Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+        /* =========================
+           SIDEBAR
+        ========================= */
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #102a43;
+            color: white;
+            padding: 25px 18px;
+            z-index: 1000;
+            transition: 0.3s;
+        }
+        
+        .brand {
+            font-size: 24px;
+            font-weight: 700;
+            padding: 10px 12px 30px;
+            letter-spacing: 0.5px;
+        }
+        
+        .brand span {
+            color: #42c2ff;
+        }
+        
+        .nav-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #91a6bd;
+            margin: 20px 12px 10px;
+            letter-spacing: 1px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 13px 14px;
+            margin-bottom: 6px;
+            border-radius: 9px;
+            color: #d9e5f0;
+            cursor: pointer;
+            transition: 0.25s;
+            font-size: 14px;
+        }
+        
+        .nav-item:hover {
+            background: #1d415f;
+            transform: translateX(3px);
+        }
+        
+        .nav-item.active {
+            background: #1d6fa5;
+            color: white;
+        }
+        
+        .nav-icon {
+            width: 22px;
+            margin-right: 10px;
+            text-align: center;
+            font-size: 15px;
+        }
+        /* =========================
+           MAIN
+        ========================= */
+        
+        .main {
+            margin-left: 240px;
+            min-height: 100vh;
+        }
+        /* =========================
+           TOP BAR
+        ========================= */
+        
+        .topbar {
+            height: 75px;
+            background: white;
+            border-bottom: 1px solid #e5eaf0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+        }
+        
+        .page-title h1 {
+            font-size: 22px;
+            margin-bottom: 3px;
+        }
+        
+        .page-title p {
+            font-size: 13px;
+            color: #718096;
+        }
+        
+        .hospital-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .hospital-selector span {
+            font-size: 13px;
+            color: #718096;
+        }
+        
+        .hospital-selector select {
+            border: 1px solid #d7dee7;
+            background: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+        }
+        /* =========================
+           CONTENT
+        ========================= */
+        
+        .content {
+            padding: 30px;
+            max-width: 1400px;
+        }
+        /* =========================
+           WELCOME BANNER
+        ========================= */
+        
+        .welcome {
+            background: linear-gradient( 120deg, #123b5d, #176b91);
+            color: white;
+            border-radius: 15px;
+            padding: 28px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .welcome::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 35px solid rgba(255, 255, 255, 0.06);
+            right: -70px;
+            top: -70px;
+        }
+        
+        .welcome h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .welcome p {
+            color: #d5e9f4;
+            font-size: 14px;
+        }
+        /* =========================
+           STAT CARDS
+        ========================= */
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 13px;
+            padding: 20px;
+            border: 1px solid #e7edf3;
+            transition: 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(24, 45, 70, 0.09);
+        }
+        
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: #2b9ed0;
+        }
+        
+        .stat-label {
+            color: #718096;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #172033;
+        }
+        
+        .stat-sub {
+            margin-top: 7px;
+            font-size: 12px;
+            color: #35a36a;
+        }
+        /* =========================
+           SECTION
+        ========================= */
+        
+        .section {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid #e6ebf0;
+            padding: 24px;
+            margin-bottom: 25px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+        
+        .section-title h2 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        
+        .section-title p {
+            color: #7a8797;
+            font-size: 12px;
+        }
+        /* =========================
+           BED CARDS
+        ========================= */
+        
+        .bed-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+        }
+        
+        .bed-card {
+            background: #f8fafc;
+            border: 1px solid #e4e9ef;
+            border-radius: 10px;
+            padding: 18px;
+            transition: 0.2s;
+        }
+        
+        .bed-card:hover {
+            border-color: #83c7e7;
+            background: #f4fbff;
+        }
+        
+        .bed-name {
+            font-size: 13px;
+            color: #6c7887;
+            margin-bottom: 8px;
+        }
+        
+        .bed-number {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .progress {
+            width: 100%;
+            height: 6px;
+            background: #e5eaf0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: #2d9dcc;
+            border-radius: 20px;
+            transition: width 0.4s;
+        }
+        /* =========================
+           TABLE
+        ========================= */
+        
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: #f7f9fb;
+            color: #667588;
+            font-size: 12px;
+            text-align: left;
+            padding: 13px;
+            border-bottom: 1px solid #e2e8ef;
+            white-space: nowrap;
+        }
+        
+        td {
+            padding: 14px 13px;
+            border-bottom: 1px solid #edf0f3;
+            font-size: 13px;
+        }
+        
+        tr:hover td {
+            background: #fafcfd;
+        }
+        /* =========================
+           BLOOD CARDS
+        ========================= */
+        
+        .blood-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 12px;
+        }
+        
+        .blood-card {
+            text-align: center;
+            padding: 18px 10px;
+            border-radius: 10px;
+            background: #fff7f7;
+            border: 1px solid #f3dddd;
+            transition: 0.25s;
+        }
+        
+        .blood-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(170, 50, 50, 0.08);
+        }
+        
+        .blood-type {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .blood-count {
+            font-size: 22px;
+            font-weight: 700;
+            color: #b83232;
+        }
+        
+        .blood-unit {
+            font-size: 11px;
+            color: #8993a0;
+            margin-bottom: 10px;
+        }
+        /* =========================
+           STATUS
+        ========================= */
+        
+        .status-tag {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .normal {
+            background: #e5f6ec;
+            color: #27804b;
+        }
+        
+        .low {
+            background: #fff4d6;
+            color: #a06b00;
+        }
+        
+        .critical {
+            background: #ffe4e4;
+            color: #b52d2d;
+        }
+        
+        .pending {
+            background: #fff4d6;
+            color: #946500;
+        }
+        
+        .approved {
+            background: #e2f2fb;
+            color: #17698d;
+        }
+        
+        .fulfilled {
+            background: #e5f6ec;
+            color: #27804b;
+        }
+        
+        .rejected {
+            background: #ffe4e4;
+            color: #b52d2d;
+        }
+        /* =========================
+           BUTTONS
+        ========================= */
+        
+        .btn {
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        
+        .btn-primary {
+            background: #eaf5fb;
+            color: #16729d;
+        }
+        
+        .btn-primary:hover {
+            background: #d5edf8;
+        }
+        
+        .btn-success {
+            background: #e5f6ec;
+            color: #27804b;
+        }
+        
+        .btn-danger {
+            background: #ffe4e4;
+            color: #b52d2d;
+        }
+        
+        .btn-dark {
+            background: #123b5d;
+            color: white;
+        }
+        
+        .btn-dark:hover {
+            background: #0d2d46;
+        }
+        /* =========================
+           SEARCH
+        ========================= */
+        
+        .search {
+            padding: 10px 13px;
+            border: 1px solid #dce3ea;
+            border-radius: 8px;
+            outline: none;
+            width: 220px;
+            font-size: 13px;
+        }
+        
+        .search:focus {
+            border-color: #55a9d1;
+            box-shadow: 0 0 0 3px rgba(55, 160, 210, 0.1);
+        }
+        /* =========================
+           RESOURCE GRID
+        ========================= */
+        
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .resource {
+            border: 1px solid #e4e9ef;
+            border-radius: 10px;
+            padding: 15px;
+            background: #fafcfd;
+            transition: 0.2s;
+        }
+        
+        .resource:hover {
+            background: white;
+            border-color: #9bcce1;
+            box-shadow: 0 5px 15px rgba(30, 70, 100, 0.06);
+        }
+        
+        .resource-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .resource-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .resource-category {
+            color: #7a8797;
+            font-size: 11px;
+            margin-bottom: 12px;
+        }
+        
+        .resource-numbers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+        
+        .resource-stat {
+            background: #f1f4f7;
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .resource-stat strong {
+            display: block;
+            font-size: 15px;
+        }
+        
+        .resource-stat span {
+            color: #7a8797;
+            font-size: 9px;
+        }
+        /* =========================
+           EDIT INPUT
+        ========================= */
+        
+        .edit-input {
+            width: 65px;
+            padding: 7px;
+            border: 1px solid #bbc8d4;
+            border-radius: 5px;
+            outline: none;
+        }
+        /* =========================
+           HOSPITAL CARDS
+        ========================= */
+        
+        .hospital-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+        
+        .hospital-card {
+            border: 1px solid #e2e8ef;
+            border-radius: 12px;
+            padding: 20px;
+            background: #fafcfd;
+            transition: 0.25s;
+        }
+        
+        .hospital-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(30, 70, 100, 0.08);
+        }
+        
+        .hospital-card h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .hospital-info {
+            color: #718096;
+            font-size: 12px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .hospital-resources {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .resource-chip {
+            background: #eaf5fb;
+            color: #17698d;
+            padding: 5px 8px;
+            border-radius: 15px;
+            font-size: 10px;
+        }
+        /* =========================
+           MOBILE MENU
+        ========================= */
+        
+        .mobile-menu {
+            display: none;
+            border: none;
+            background: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        /* =========================
+           RESPONSIVE
+        ========================= */
+        
+        @media(max-width:1100px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .bed-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .blood-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .resource-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hospital-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media(max-width:700px) {
+            .sidebar {
+                left: -240px;
+            }
+            .sidebar.open {
+                left: 0;
+            }
+            .main {
+                margin-left: 0;
+            }
+            .mobile-menu {
+                display: block;
+            }
+            .topbar {
+                padding: 0 15px;
+            }
+            .content {
+                padding: 15px;
+            }
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .bed-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .blood-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .resource-grid {
+                grid-template-columns: 1fr;
+            }
+            .hospital-grid {
+                grid-template-columns: 1fr;
+            }
+            .hospital-selector {
+                display: none;
+            }
+            .search {
+                width: 150px;
+            }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+     SIDEBAR
+========================= -->
+
+    <div class="sidebar" id="sidebar">
+
+        <div class="brand">
+            Eme<span>Care</span>
+        </div>
+
+
+        <div class="nav-title">
+            Dashboard
+        </div>
+
+
+        <div class="nav-item active" onclick="showPage('overview', this)">
+
+            <span class="nav-icon">▦</span> Overview
+
+        </div>
+
+
+        <div class="nav-item" onclick="showPage('beds', this)">
+
+            <span class="nav-icon">▣</span> Bed Management
+
+        </div>
+
+
+        <div class="nav-item" onclick="showPage('blood', this)">
+
+            <span class="nav-icon">+</span> Blood Stock
+
+        </div>
+
+
+        <div class="nav-item" onclick="showPage('resources', this)">
+
+            <span class="nav-icon">◈</span> Medical Resources
+
+        </div>
+
+
+        <div class="nav-title">
+            Coordination
+        </div>
+
+
+        <div class="nav-item" onclick="showPage('requests', this)">
+
+            <span class="nav-icon">⇄</span> Resource Requests
+
+        </div>
+
+
+        <div class="nav-item" onclick="showPage('hospitals', this)">
+
+            <span class="nav-icon">⌂</span> Hospitals
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+     MAIN
+========================= -->
+
+    <div class="main">
+
+
+        <!-- TOP BAR -->
+
+        <div class="topbar">
+
+            <div style="display:flex;align-items:center;gap:12px;">
+
+                <button class="mobile-menu" onclick="toggleSidebar()">
+
+                ☰
+
+            </button>
+
+
+                <div class="page-title">
+
+                    <h1 id="pageTitle">
+                        Coordinator Dashboard
+                    </h1>
+
+                    <p id="pageCaption">
+                        Hospital resource management and monitoring
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="hospital-selector">
+
+                <span>
+                Hospital:
+            </span>
+
+                <select id="hospitalSelect">
+
+                <option>
+                    City General Hospital
+                </option>
+
+                <option>
+                    St. Mary's Hospital
+                </option>
+
+                <option>
+                    Apollo Medical Centre
+                </option>
+
+                <option>
+                    District Government Hospital
+                </option>
+
+            </select>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PAGE CONTENT -->
+
+        <div class="content" id="pageContent">
+
+
+            <!-- =========================
+             OVERVIEW
+        ========================= -->
+
+            <div id="overviewPage">
+
+                <div class="welcome">
+
+                    <h2>
+                        Good afternoon, Coordinator
+                    </h2>
+
+                    <p>
+                        Monitor hospital capacity, blood stock and critical medical resources from one place.
+                    </p>
+
+                </div>
+
+
+                <div class="stats">
+
+                    <div class="stat-card">
+
+                        <div class="stat-label">
+                            Total Beds
+                        </div>
+
+                        <div class="stat-number" id="overviewTotal">
+                            120
+                        </div>
+
+                        <div class="stat-sub">
+                            Hospital capacity
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-label">
+                            Available Beds
+                        </div>
+
+                        <div class="stat-number" id="overviewAvailable">
+                            45
+                        </div>
+
+                        <div class="stat-sub">
+                            Currently available
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-label">
+                            Occupied Beds
+                        </div>
+
+                        <div class="stat-number" id="overviewOccupied">
+                            75
+                        </div>
+
+                        <div class="stat-sub">
+                            Currently occupied
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-label">
+                            Critical Resources
+                        </div>
+
+                        <div class="stat-number">
+                            3
+                        </div>
+
+                        <div class="stat-sub">
+                            Require attention
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <div class="section-title">
+
+                            <h2>
+                                Bed Capacity Summary
+                            </h2>
+
+                            <p>
+                                Current hospital bed availability
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="bed-grid">
+
+                        <div class="bed-card">
+
+                            <div class="bed-name">
+                                Total
+                            </div>
+
+                            <div class="bed-number" id="overviewTotalBed">
+                                120
+                            </div>
+
+                            <div class="progress">
+
+                                <div class="progress-bar" style="width:100%">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="bed-card">
+
+                            <div class="bed-name">
+                                Available
+                            </div>
+
+                            <div class="bed-number" id="overviewAvailableBed">
+                                45
+                            </div>
+
+                            <div class="progress">
+
+                                <div class="progress-bar" style="width:38%">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="bed-card">
+
+                            <div class="bed-name">
+                                Occupied
+                            </div>
+
+                            <div class="bed-number" id="overviewOccupiedBed">
+                                75
+                            </div>
+
+                            <div class="progress">
+
+                                <div class="progress-bar" style="width:63%">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="bed-card">
+
+                            <div class="bed-name">
+                                ICU
+                            </div>
+
+                            <div class="bed-number">
+                                12
+                            </div>
+
+                            <div class="progress">
+
+                                <div class="progress-bar" style="width:60%">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="bed-card">
+
+                            <div class="bed-name">
+                                Casualty
+                            </div>
+
+                            <div class="bed-number">
+                                18
+                            </div>
+
+                            <div class="progress">
+
+                                <div class="progress-bar" style="width:72%">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+             BED MANAGEMENT
+        ========================= -->
+
+            <div id="bedsPage" style="display:none;">
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <div class="section-title">
+
+                            <h2>
+                                Bed Management
+                            </h2>
+
+                            <p>
+                                Update ward capacity and occupancy in real time.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Ward
+                                    </th>
+
+                                    <th>
+                                        Total Beds
+                                    </th>
+
+                                    <th>
+                                        Occupied
+                                    </th>
+
+                                    <th>
+                                        Available
+                                    </th>
+
+                                    <th>
+                                        Occupancy
+                                    </th>
+
+                                    <th>
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>
+                                        General Ward
+                                    </td>
+
+                                    <td>
+                                        <input class="edit-input" type="number" value="60" id="generalTotal">
+                                    </td>
+
+                                    <td>
+                                        <input class="edit-input" type="number" value="38" id="generalOccupied">
+                                    </td>
+
+                                    <td id="generalAvailable">
+                                        22
+                                    </td>
+
+                                    <td>
+
+                                        <button class="btn btn-primary" onclick="updateBeds('general')">
+
+                                        Update
+
+                                    </button>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        ICU
+                                    </td>
+
+                                    <td>
+                                        <input class="edit-input" type="number" value="20" id="icuTotal">
+                                    </td>
+
+                                    <td>
+                                        <input class="edit-input" type="number" value="12" id="icuOccupied">
+                                    </td>
+
+                                    <td id="icuAvailable">
+                                        8
+                                    </td>
+
+                                    <td>
+
+                                        <button class="btn btn-primary" onclick="updateBeds('icu')">
+
+                                        Update
+
+                                    </button>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        Casualty
+                                    </td>
+
+                                    <td>
+                                        <input class="edit-input" type="number" value="25" id="casualtyTotal">
+                                    </td>
+
+                                    <td>
+                                        <input class="edit-input" type="number" value="18" id="casualtyOccupied">
+                                    </td>
+
+                                    <td id="casualtyAvailable">
+                                        7
+                                    </td>
+
+                                    <td>
+
+                                        <button class="btn btn-primary" onclick="updateBeds('casualty')">
+
+                                        Update
+
+                                    </button>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        Pediatrics
+                                    </td>
+
+                                    <td>
+                                        <input class="edit-input" type="number" value="25" id="pediatricTotal">
+                                    </td>
+
+                                    <td>
+                                        <input class="edit-input" type="number" value="15" id="pediatricOccupied">
+                                    </td>
+
+                                    <td id="pediatricAvailable">
+                                        10
+                                    </td>
+
+                                    <td>
+
+                                        <button class="btn btn-primary" onclick="updateBeds('pediatric')">
+
+                                        Update
+
+                                    </button>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        Surgery
+                                    </td>
+
+                                    <td>
+                                        <input class="edit-input" type="number" value="30" id="surgeryTotal">
+                                    </td>
+
+                                    <td>
+                                        <input class="edit-input" type="number" value="20" id="surgeryOccupied">
+                                    </td>
+
+                                    <td id="surgeryAvailable">
+                                        10
+                                    </td>
+
+                                    <td>
+
+                                        <button class="btn btn-primary" onclick="updateBeds('surgery')">
+
+                                        Update
+
+                                    </button>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+             BLOOD STOCK
+        ========================= -->
+
+            <div id="bloodPage" style="display:none;">
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <div class="section-title">
+
+                            <h2>
+                                Blood Stock
+                            </h2>
+
+                            <p>
+                                Monitor and update available blood units.
+                            </p>
+
+                        </div>
+
+                        <button class="btn btn-dark" onclick="addBlood()">
+
+                        + Add Units
+
+                    </button>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Blood Group
+                                    </th>
+
+                                    <th>
+                                        Units Available
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="bloodTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+             MEDICAL RESOURCES
+        ========================= -->
+
+            <div id="resourcesPage" style="display:none;">
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <div class="section-title">
+
+                            <h2>
+                                Medical Resources
+                            </h2>
+
+                            <p>
+                                Monitor equipment and medical supplies.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="resource-grid" id="resourcesGrid">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+             RESOURCE REQUESTS
+        ========================= -->
+
+            <div id="requestsPage" style="display:none;">
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <div class="section-title">
+
+                            <h2>
+                                Resource Requests
+                            </h2>
+
+                            <p>
+                                Manage incoming requests from connected hospitals.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Request ID
+                                    </th>
+
+                                    <th>
+                                        Requesting Hospital
+                                    </th>
+
+                                    <th>
+                                        Resource Needed
+                                    </th>
+
+                                    <th>
+                                        Priority
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="requestsTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+             HOSPITALS
+        ========================= -->
+
+            <div id="hospitalsPage" style="display:none;">
+
+                <div class="section">
+
+                    <div class="section-header">
+
+                        <div class="section-title">
+
+                            <h2>
+                                Connected Hospitals
+                            </h2>
+
+                            <p>
+                                Partner hospitals and their current resource availability.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="hospital-grid">
+
+
+                        <div class="hospital-card">
+
+                            <h3>
+                                City General Hospital
+                            </h3>
+
+                            <div class="hospital-info">
+
+                                Location: Central District<br> Contact: +91 98765 43210<br> Emergency: Available 24/7
+
+                            </div>
+
+                            <div class="hospital-resources">
+
+                                <span class="resource-chip">
+                                Beds: 45
+                            </span>
+
+                                <span class="resource-chip">
+                                Ventilators: 3
+                            </span>
+
+                                <span class="resource-chip">
+                                O₂: 25
+                            </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="hospital-card">
+
+                            <h3>
+                                St. Mary's Hospital
+                            </h3>
+
+                            <div class="hospital-info">
+
+                                Location: North District<br> Contact: +91 98765 12345<br> Emergency: Available 24/7
+
+                            </div>
+
+                            <div class="hospital-resources">
+
+                                <span class="resource-chip">
+                                Beds: 32
+                            </span>
+
+                                <span class="resource-chip">
+                                Ventilators: 5
+                            </span>
+
+                                <span class="resource-chip">
+                                O₂: 40
+                            </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="hospital-card">
+
+                            <h3>
+                                Apollo Medical Centre
+                            </h3>
+
+                            <div class="hospital-info">
+
+                                Location: East District<br> Contact: +91 98765 67890<br> Emergency: Available 24/7
+
+                            </div>
+
+                            <div class="hospital-resources">
+
+                                <span class="resource-chip">
+                                Beds: 28
+                            </span>
+
+                                <span class="resource-chip">
+                                Ventilators: 2
+                            </span>
+
+                                <span class="resource-chip">
+                                O₂: 18
+                            </span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+        /* =========================
+                   PAGE NAVIGATION
+                ========================= */
+
+        function showPage(page, clickedItem) {
+
+            const pages = [
+                "overviewPage",
+                "bedsPage",
+                "bloodPage",
+                "resourcesPage",
+                "requestsPage",
+                "hospitalsPage"
+            ];
+
+            pages.forEach(function(id) {
+
+                document.getElementById(id).style.display = "none";
+
+            });
+
+
+            document.getElementById(page + "Page").style.display = "block";
+
+
+            document
+                .querySelectorAll(".nav-item")
+                .forEach(function(item) {
+
+                    item.classList.remove("active");
+
+                });
+
+
+            clickedItem.classList.add("active");
+
+
+            const titles = {
+
+                overview: [
+                    "Coordinator Dashboard",
+                    "Hospital resource management and monitoring"
+                ],
+
+                beds: [
+                    "Bed Management",
+                    "Monitor and update hospital bed capacity"
+                ],
+
+                blood: [
+                    "Blood Stock",
+                    "Monitor and manage blood inventory"
+                ],
+
+                resources: [
+                    "Medical Resources",
+                    "Manage equipment and medical supplies"
+                ],
+
+                requests: [
+                    "Resource Requests",
+                    "Manage incoming hospital resource requests"
+                ],
+
+                hospitals: [
+                    "Connected Hospitals",
+                    "Partner hospital directory and resource availability"
+                ]
+
+            };
+
+
+            document.getElementById("pageTitle").textContent =
+                titles[page][0];
+
+            document.getElementById("pageCaption").textContent =
+                titles[page][1];
+
+
+            if (window.innerWidth <= 700) {
+
+                document
+                    .getElementById("sidebar")
+                    .classList.remove("open");
+
+            }
+
+        }
+
+
+        /* =========================
+           MOBILE SIDEBAR
+        ========================= */
+
+        function toggleSidebar() {
+
+            document
+                .getElementById("sidebar")
+                .classList.toggle("open");
+
+        }
+
+
+        /* =========================
+           BED MANAGEMENT
+        ========================= */
+
+        function updateBeds(type) {
+
+            const total =
+                Number(document.getElementById(type + "Total").value);
+
+            const occupied =
+                Number(document.getElementById(type + "Occupied").value);
+
+
+            if (occupied > total) {
+
+                alert("Occupied beds cannot be greater than total beds.");
+
+                return;
+
+            }
+
+
+            const available =
+                total - occupied;
+
+
+            document.getElementById(type + "Available").textContent =
+                available;
+
+
+            updateOverviewBeds();
+
+        }
+
+
+        function updateOverviewBeds() {
+
+            const generalTotal =
+                Number(document.getElementById("generalTotal").value);
+
+            const generalOccupied =
+                Number(document.getElementById("generalOccupied").value);
+
+
+            const icuTotal =
+                Number(document.getElementById("icuTotal").value);
+
+            const icuOccupied =
+                Number(document.getElementById("icuOccupied").value);
+
+
+            const casualtyTotal =
+                Number(document.getElementById("casualtyTotal").value);
+
+            const casualtyOccupied =
+                Number(document.getElementById("casualtyOccupied").value);
+
+
+            const pediatricTotal =
+                Number(document.getElementById("pediatricTotal").value);
+
+            const pediatricOccupied =
+                Number(document.getElementById("pediatricOccupied").value);
+
+
+            const surgeryTotal =
+                Number(document.getElementById("surgeryTotal").value);
+
+            const surgeryOccupied =
+                Number(document.getElementById("surgeryOccupied").value);
+
+
+            const total =
+                generalTotal +
+                icuTotal +
+                casualtyTotal +
+                pediatricTotal +
+                surgeryTotal;
+
+
+            const occupied =
+                generalOccupied +
+                icuOccupied +
+                casualtyOccupied +
+                pediatricOccupied +
+                surgeryOccupied;
+
+
+            const available =
+                total - occupied;
+
+
+            document.getElementById("overviewTotal").textContent =
+                total;
+
+            document.getElementById("overviewAvailable").textContent =
+                available;
+
+            document.getElementById("overviewOccupied").textContent =
+                occupied;
+
+            document.getElementById("overviewTotalBed").textContent =
+                total;
+
+            document.getElementById("overviewAvailableBed").textContent =
+                available;
+
+            document.getElementById("overviewOccupiedBed").textContent =
+                occupied;
+
+        }
+
+
+        /* =========================
+           BLOOD STOCK
+        ========================= */
+
+        let bloodData = [
+
+            {
+                group: "A+",
+                units: 12
+            },
+
+            {
+                group: "A-",
+                units: 5
+            },
+
+            {
+                group: "B+",
+                units: 15
+            },
+
+            {
+                group: "B-",
+                units: 4
+            },
+
+            {
+                group: "AB+",
+                units: 7
+            },
+
+            {
+                group: "AB-",
+                units: 2
+            },
+
+            {
+                group: "O+",
+                units: 20
+            },
+
+            {
+                group: "O-",
+                units: 6
+            }
+
+        ];
+
+
+        function getBloodStatus(units) {
+
+            if (units <= 2) {
+
+                return {
+                    text: "Critical",
+                    class: "critical"
+                };
+
+            }
+
+            if (units <= 5) {
+
+                return {
+                    text: "Low",
+                    class: "low"
+                };
+
+            }
+
+            return {
+                text: "Normal",
+                class: "normal"
+            };
+
+        }
+
+
+        function renderBloodTable() {
+
+            const table =
+                document.getElementById("bloodTable");
+
+
+            table.innerHTML = "";
+
+
+            bloodData.forEach(function(blood, index) {
+
+                const status =
+                    getBloodStatus(blood.units);
+
+
+                table.innerHTML += `
+
+            <tr>
+
+                <td>
+                    <strong>${blood.group}</strong>
+                </td>
+
+                <td>
+                    ${blood.units} units
+                </td>
+
+                <td>
+                    <span class="status-tag ${status.class}">
+                        ${status.text}
+                    </span>
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="editBlood(${index})">
+
+                        Edit
+
+                    </button>
+
+                    <button
+                        class="btn btn-danger"
+                        onclick="deductBlood(${index})">
+
+                        Deduct
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+            });
+
+        }
+
+
+        function addBlood() {
+
+            const group =
+                prompt("Enter blood group (example: A+):");
+
+
+            if (!group) return;
+
+
+            const units =
+                Number(prompt("Enter number of units to add:"));
+
+
+            if (isNaN(units) || units <= 0) {
+
+                alert("Please enter a valid number.");
+
+                return;
+
+            }
+
+
+            const existing =
+                bloodData.find(
+                    blood => blood.group === group
+                );
+
+
+            if (existing) {
+
+                existing.units += units;
+
+            } else {
+
+                bloodData.push({
+                    group: group,
+                    units: units
+                });
+
+            }
+
+
+            renderBloodTable();
+
+        }
+
+
+        function editBlood(index) {
+
+            const newValue =
+                Number(
+                    prompt(
+                        "Enter new number of units:",
+                        bloodData[index].units
+                    )
+                );
+
+
+            if (isNaN(newValue) || newValue < 0) {
+
+                alert("Please enter a valid number.");
+
+                return;
+
+            }
+
+
+            bloodData[index].units =
+                newValue;
+
+
+            renderBloodTable();
+
+        }
+
+
+        function deductBlood(index) {
+
+            const amount =
+                Number(
+                    prompt(
+                        "How many units should be deducted?"
+                    )
+                );
+
+
+            if (
+                isNaN(amount) ||
+                amount <= 0 ||
+                amount > bloodData[index].units
+            ) {
+
+                alert("Invalid quantity.");
+
+                return;
+
+            }
+
+
+            bloodData[index].units -= amount;
+
+
+            renderBloodTable();
+
+        }
+
+
+        /* =========================
+           MEDICAL RESOURCES
+        ========================= */
+
+        const resources = [
+
+            {
+                name: "Ventilator",
+                category: "Critical Equipment",
+                total: 8,
+                inUse: 5,
+                available: 3,
+                maintenance: "Operational"
+            },
+
+            {
+                name: "Oxygen Cylinders",
+                category: "Medical Supply",
+                total: 60,
+                inUse: 35,
+                available: 25,
+                maintenance: "Operational"
+            },
+
+            {
+                name: "PPE Kits",
+                category: "Protective Equipment",
+                total: 150,
+                inUse: 70,
+                available: 80,
+                maintenance: "Operational"
+            },
+
+            {
+                name: "Defibrillators",
+                category: "Emergency Equipment",
+                total: 6,
+                inUse: 4,
+                available: 2,
+                maintenance: "Operational"
+            },
+
+            {
+                name: "Syringe Pumps",
+                category: "Critical Equipment",
+                total: 15,
+                inUse: 9,
+                available: 6,
+                maintenance: "Maintenance Due"
+            }
+
+        ];
+
+
+        function renderResources() {
+
+            const grid =
+                document.getElementById("resourcesGrid");
+
+
+            grid.innerHTML = "";
+
+
+            resources.forEach(function(resource, index) {
+
+                grid.innerHTML += `
+
+            <div class="resource">
+
+                <div class="resource-top">
+
+                    <span class="resource-name">
+                        ${resource.name}
+                    </span>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="editResource(${index})">
+
+                        Edit
+
+                    </button>
+
+                </div>
+
+                <div class="resource-category">
+
+                    ${resource.category}
+
+                </div>
+
+                <div class="resource-numbers">
+
+                    <div class="resource-stat">
+
+                        <strong>
+                            ${resource.total}
+                        </strong>
+
+                        <span>
+                            Total
+                        </span>
+
+                    </div>
+
+                    <div class="resource-stat">
+
+                        <strong>
+                            ${resource.inUse}
+                        </strong>
+
+                        <span>
+                            In Use
+                        </span>
+
+                    </div>
+
+                    <div class="resource-stat">
+
+                        <strong>
+                            ${resource.available}
+                        </strong>
+
+                        <span>
+                            Available
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top:12px;font-size:11px;color:#718096;">
+
+                    Maintenance:
+                    <strong>
+                        ${resource.maintenance}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        `;
+
+            });
+
+        }
+
+
+        function editResource(index) {
+
+            const resource =
+                resources[index];
+
+
+            const total =
+                Number(
+                    prompt(
+                        "Total quantity:",
+                        resource.total
+                    )
+                );
+
+
+            const inUse =
+                Number(
+                    prompt(
+                        "Currently in use:",
+                        resource.inUse
+                    )
+                );
+
+
+            if (
+                isNaN(total) ||
+                isNaN(inUse) ||
+                total < 0 ||
+                inUse < 0 ||
+                inUse > total
+            ) {
+
+                alert("Invalid quantity.");
+
+                return;
+
+            }
+
+
+            resource.total = total;
+
+            resource.inUse = inUse;
+
+            resource.available =
+                total - inUse;
+
+
+            const maintenance =
+                prompt(
+                    "Maintenance status:",
+                    resource.maintenance
+                );
+
+
+            if (maintenance) {
+
+                resource.maintenance =
+                    maintenance;
+
+            }
+
+
+            renderResources();
+
+        }
+
+
+        /* =========================
+           RESOURCE REQUESTS
+        ========================= */
+
+        const requests = [
+
+            {
+                id: "REQ-001",
+                hospital: "St. Mary's Hospital",
+                resource: "Ventilators",
+                priority: "High",
+                status: "Pending"
+            },
+
+            {
+                id: "REQ-002",
+                hospital: "Apollo Medical Centre",
+                resource: "Oxygen Cylinders",
+                priority: "Critical",
+                status: "Pending"
+            },
+
+            {
+                id: "REQ-003",
+                hospital: "District Government Hospital",
+                resource: "PPE Kits",
+                priority: "Medium",
+                status: "Approved"
+            },
+
+            {
+                id: "REQ-004",
+                hospital: "St. Mary's Hospital",
+                resource: "Blood O+",
+                priority: "High",
+                status: "Fulfilled"
+            }
+
+        ];
+
+
+        function renderRequests() {
+
+            const table =
+                document.getElementById("requestsTable");
+
+
+            table.innerHTML = "";
+
+
+            requests.forEach(function(request, index) {
+
+                        let statusClass =
+                            request.status.toLowerCase();
+
+
+                        table.innerHTML += `
+
+            <tr>
+
+                <td>
+                    <strong>
+                        ${request.id}
+                    </strong>
+                </td>
+
+                <td>
+                    ${request.hospital}
+                </td>
+
+                <td>
+                    ${request.resource}
+                </td>
+
+                <td>
+
+                    <span class="status-tag
+                        ${
+                            request.priority === "Critical"
+                            ? "critical"
+                            : request.priority === "High"
+                            ? "low"
+                            : "normal"
+                        }">
+
+                        ${request.priority}
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <span class="status-tag ${statusClass}">
+
+                        ${request.status}
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    ${
+                        request.status === "Pending"
+                        ? `
+
+                        <button
+                            class="btn btn-success"
+                            onclick="approveRequest(${index})">
+
+                            Approve
+
+                        </button>
+
+                        <button
+                            class="btn btn-danger"
+                            onclick="rejectRequest(${index})">
+
+                            Reject
+
+                        </button>
+
+                        `
+                        : `
+
+                        <button
+                            class="btn btn-primary"
+                            onclick="updateRequest(${index})">
+
+                            Update Status
+
+                        </button>
+
+                        `
+                    }
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+function approveRequest(index) {
+
+    requests[index].status =
+        "Approved";
+
+
+    renderRequests();
+
+}
+
+
+function rejectRequest(index) {
+
+    requests[index].status =
+        "Rejected";
+
+
+    renderRequests();
+
+}
+
+
+function updateRequest(index) {
+
+    const newStatus =
+        prompt(
+            "Enter status: Pending, Approved, or Fulfilled",
+            requests[index].status
+        );
+
+
+    if (!newStatus) return;
+
+
+    const validStatuses = [
+        "Pending",
+        "Approved",
+        "Fulfilled",
+        "Rejected"
+    ];
+
+
+    if (!validStatuses.includes(newStatus)) {
+
+        alert("Invalid status.");
+
+        return;
+
+    }
+
+
+    requests[index].status =
+        newStatus;
+
+
+    renderRequests();
+
+}
+
+
+/* =========================
+   INITIAL LOAD
+========================= */
+
+renderBloodTable();
+
+renderResources();
+
+renderRequests();
+    </script>
+
+
+</body>
+
+</html>
+```
